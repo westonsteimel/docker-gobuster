@@ -1,4 +1,4 @@
-FROM golang:1.10-alpine AS builder
+FROM golang:alpine AS builder
 
 RUN	apk --no-cache add \
 	ca-certificates \
@@ -15,12 +15,17 @@ RUN mkdir -p /go/src/gobuster \
 	&& cp -vr /go/bin/* /usr/local/bin/ \
 	&& echo "Build complete."
 
-FROM alpine:latest
+FROM alpine:edge
 
-RUN	apk --no-cache add \
-	ca-certificates
+RUN	apk upgrade && apk --no-cache add \
+	ca-certificates \
+    && rm -rf /var/cache \
+    && addgroup -g 1000 gobuster \
+    && adduser -u 1000 -G gobuster -s /bin/sh -D gobuster
 
-COPY --from=builder /usr/local/bin/gobuster /usr/bin/gobuster
+COPY --from=builder /usr/local/bin/gobuster /usr/local/bin/gobuster
 
-ENTRYPOINT [ "gobuster" ]
+USER gobuster
+
+ENTRYPOINT [ "/usr/local/bin/gobuster" ]
 
