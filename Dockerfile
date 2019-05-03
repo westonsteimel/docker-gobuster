@@ -20,8 +20,8 @@ FROM alpine:edge
 RUN	apk upgrade && apk --no-cache add \
 	ca-certificates \
     && rm -rf /var/cache \
-    && addgroup -g 1000 gobuster \
-    && adduser -u 1000 -G gobuster -s /bin/sh -D gobuster
+    && addgroup gobuster \
+    && adduser -G gobuster -s /bin/sh -D gobuster
 
 COPY --from=builder /usr/local/bin/gobuster /usr/local/bin/gobuster
 
