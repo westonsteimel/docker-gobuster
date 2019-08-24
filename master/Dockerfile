@@ -23,7 +23,7 @@ RUN mkdir -p /go/src/gobuster \
 	&& cp -vr /go/bin/* /usr/local/bin/ \
 	&& echo "Build complete."
 
-FROM alpine:edge
+FROM scratch
 
 COPY --from=builder /usr/local/bin/gobuster /usr/local/bin/gobuster
 COPY --from=builder /etc/passwd /etc/passwd
