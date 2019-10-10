@@ -25,6 +25,8 @@ RUN mkdir -p /go/src/gobuster \
 
 FROM scratch
 
+ARG GOBUSTER_VERSION
+
 COPY --from=builder /usr/local/bin/gobuster /usr/local/bin/gobuster
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/ssl/certs /etc/ssl/certs
